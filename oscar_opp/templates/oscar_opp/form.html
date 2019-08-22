@@ -1,15 +1,9 @@
+{% load i18n %}
+
 <script>
 var wpwlOptions = {
     style: "plain",
     locale: "{{locale}}",
-    // billingAddress: {
-    //    country: "{{ address.country }}",
-    //    state: "{{ address.state }}",
-    //    city: "{{ address.city }}",
-    //    street1: "{{ address.street_1 }}",
-    //    street2: "{{ address.street_2 }}",
-    //    postcode: "{{ address.postcode }}"
-    //},
     //forceCardHolderEqualsBillingName: true,
     showCVVHint: true,
     brandDetection: true,
@@ -33,12 +27,63 @@ var wpwlOptions = {
         var visa = $(".wpwl-brand:first").clone().removeAttr("class").attr("class", "wpwl-brand-card wpwl-brand-custom wpwl-brand-VISA")
         var master = $(visa).clone().removeClass("wpwl-brand-VISA").addClass("wpwl-brand-MASTER");
         $(".wpwl-brand:first").after( $(master)).after( $(visa));
+        {% if use_3d_secure_2 %}
+          wpwlOptions.add3dSecure2Fields();
+        {% endif %}
     },
 
     onChangeBrand: function(e) {
         $(".wpwl-brand-custom").css("opacity", "0.3");
         $(".wpwl-brand-" + e).css("opacity", "1");
+    },
+    {% if use_3d_secure_2 %}
+    add3dSecure2Fields: function() {
+        var customerGivenName =
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Firstname" %}</div>' +
+            '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
+            '<input type="text" name="customer.givenName" value="{{ customer_givenName|default:'' }}" required />'
+            '</div>';
+        var customerSurName =
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Lastname" %}</div>' +
+            '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
+            '<input type="text" name="customer.surname" value="{{ customer_surname|default:'' }}" required />'
+            '</div>';
+        var customerEmail =
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Email" %}</div>' +
+            '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
+            '<input type="text" name="customer.email" value="{{ customer_email|default:'' }}" required />'
+            '</div>';
+        var billingStreet1 =
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Street" %}</div>' +
+            '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
+            '<input type="text" name="billing.street1" value="{{ billing_street1|default:'' }}" required />'
+            '</div>';
+        var billingCity =
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Email" %}</div>' +
+            '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
+            '<input type="text" name="billing.city" value="{{ billing_city|default:'' }}" required />'
+            '</div>';
+        var billingPostcode =
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Email" %}</div>' +
+            '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
+            '<input type="text" name="billing.postcode" value="{{ billing_postcode|default:'' }}" required />'
+            '</div>';
+        var billingCountry =
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block"></div>' +
+            '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
+            '<input type="text" name="billing.country" value="{{ billing_country|default:'' }}" required />'
+            '</div>';
+
+        $('form.wpwl-form-card').find('.wpwl-button')
+            .before(customerGivenName)
+            .before(customerSurName)
+            .before(customerEmail)
+            .before(billingStreet1)
+            .before(billingCity)
+            .before(billingPostcode)
+            .before(billingCountry);
     }
+    {% endif %}
 }
 </script>
 
