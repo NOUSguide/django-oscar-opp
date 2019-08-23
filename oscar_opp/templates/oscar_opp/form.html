@@ -39,42 +39,55 @@ var wpwlOptions = {
     {% if use_3d_secure_2 %}
     add3dSecure2Fields: function() {
         var customerGivenName =
-            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Firstname" %}</div>' +
+            '<div class="wpwl-group wpwl-group-expiry wpwl-clearfix">' +
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "First name" %}</div>' +
             '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
-            '<input type="text" name="customer.givenName" value="{{ customer_givenName|default:'' }}" required />'
+            '<input class="wpwl-control" type="text" name="customer.givenName" value="{{ customer_givenName|default:'' }}" required />' +
+            '</div>' +
             '</div>';
         var customerSurName =
-            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Lastname" %}</div>' +
+            '<div class="wpwl-group wpwl-group-expiry wpwl-clearfix">' +
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Last name" %}</div>' +
             '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
-            '<input type="text" name="customer.surname" value="{{ customer_surname|default:'' }}" required />'
+            '<input class="wpwl-control" type="text" name="customer.surname" value="{{ customer_surname|default:'' }}" required />' +
+            '</div>' +
             '</div>';
         var customerEmail =
+            '<div class="wpwl-group wpwl-group-expiry wpwl-clearfix">' +
             '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Email" %}</div>' +
             '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
-            '<input type="text" name="customer.email" value="{{ customer_email|default:'' }}" required />'
+            '<input class="wpwl-control" type="email" name="customer.email" value="{{ customer_email|default:'' }}" required />' +
+            '</div>' +
             '</div>';
         var billingStreet1 =
+            '<div class="wpwl-group wpwl-group-expiry wpwl-clearfix">' +
             '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Street" %}</div>' +
             '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
-            '<input type="text" name="billing.street1" value="{{ billing_street1|default:'' }}" required />'
+            '<input class="wpwl-control" type="text" name="billing.street1" value="{{ billing_street1|default:'' }}" required />' +
+            '</div>' +
             '</div>';
         var billingCity =
-            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Email" %}</div>' +
+            '<div class="wpwl-group wpwl-group-expiry wpwl-clearfix">' +
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "City" %}</div>' +
             '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
-            '<input type="text" name="billing.city" value="{{ billing_city|default:'' }}" required />'
+            '<input class="wpwl-control" type="text" name="billing.city" value="{{ billing_city|default:'' }}" required />' +
+            '</div>' +
             '</div>';
         var billingPostcode =
-            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Email" %}</div>' +
+            '<div class="wpwl-group wpwl-group-expiry wpwl-clearfix">' +
+            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block">{% trans "Postal code" %}</div>' +
             '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
-            '<input type="text" name="billing.postcode" value="{{ billing_postcode|default:'' }}" required />'
+            '<input class="wpwl-control" type="text" name="billing.postcode" value="{{ billing_postcode|default:'' }}" required />' +
+            '</div>' +
             '</div>';
         var billingCountry =
-            '<div class="wpwl-label wpwl-label-custom" style="display:inline-block"></div>' +
+            '<div class="wpwl-group wpwl-group-expiry wpwl-clearfix">' +
             '<div class="wpwl-wrapper wpwl-wrapper-custom" style="display:inline-block">' +
-            '<input type="text" name="billing.country" value="{{ billing_country|default:'' }}" required />'
+            '<input class="wpwl-control" type="hidden" name="billing.country" value="{{ billing_country|default:'AT' }}" required />' +
+            '</div>' +
             '</div>';
 
-        $('form.wpwl-form-card').find('.wpwl-button')
+        $('form.wpwl-form-card').find('.wpwl-group-submit')
             .before(customerGivenName)
             .before(customerSurName)
             .before(customerEmail)
