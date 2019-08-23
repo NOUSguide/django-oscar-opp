@@ -178,7 +178,8 @@ class Facade(object):
             if payment_method else settings.DEFAULT_PAYMENT_METHOD
         return settings.OPP_PAYMENT_METHODS.get(payment_method)
 
-    def get_form(self, callback, locale, payment_method=None, address=None):
+    def get_form(self, callback, locale, payment_method=None, address=None,
+                 fields_3d_secure_2=None):
         """
         COPYandPAY step 2: Create the payment form
 
@@ -188,6 +189,7 @@ class Facade(object):
         :param locale:
         :param payment_method:
         :param address:
+        :param fields_3d_secure_2:
         :return:
         """
         ctx = {
@@ -198,5 +200,19 @@ class Facade(object):
             'shopper_result_url': callback,
             'gateway_host': self.gateway.host,
         }
+
+        if fields_3d_secure_2:
+            ctx.update({
+                'use_3d_secure_2': True,
+                'customer_givenName':
+                    fields_3d_secure_2['customer']['givenName'],
+                'customer_surname': fields_3d_secure_2['customer']['surname'],
+                'customer_email': fields_3d_secure_2['customer']['email'],
+                'billing_street1': fields_3d_secure_2['billing']['street1'],
+                'billing_city': fields_3d_secure_2['billing']['city'],
+                'billing_postcode': fields_3d_secure_2['billing']['postcode'],
+                'billing_country': fields_3d_secure_2['billing']['country']
+            })
+
         template = get_template('oscar_opp/form.html')
         return template.render(ctx)
