@@ -15,7 +15,7 @@ def read(*parts):
 
 setup(
     name="django-oscar-opp",
-    version="0.3.1",
+    version="0.4.0",
     url='https://github.com/ashwoods/django-oscar-opp',
     license='MIT',
     description="Oscar payment backend for opp",
